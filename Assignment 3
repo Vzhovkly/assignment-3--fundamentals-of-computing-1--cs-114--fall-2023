@@ -1,0 +1,116 @@
+import java.util.Scanner;
+
+public class RunMatrix {
+  public static void main(String[] args) {
+    Matrix.matrix(); //Creates a matrix
+    Matrix.printMatrix(); // Prints the inital matrix before the population 
+    Matrix.populateMatrix();// Populates the matrix with values 
+    Matrix.printMatrix(); // Prints the populated matrix 
+    Matrix.flipMatrix();//Flips the matrix
+    Matrix.printMatrix(); // Prints the flippped matrix 
+  }
+}
+
+
+
+import java.util.Scanner;
+
+public class Matrix {
+
+
+  //necessary variables for the entire program 
+//These variables are marked as public static, indicating they can be accessed from other classes without requiring an instance of the class they belong to. 
+//The final keyword indicates that the strings ANSI_YELLOW and ANSI_RESET are constants whose values cannot be changed after initialization.
+  public static int size;
+  public static int[][] table;
+  public static int row;
+  public static int col;
+  public static final String ANSI_YELLOW = "\u001B[33m";
+  public static final String ANSI_RESET = "\u001B[0m";
+
+  // user input and create zero matrix
+//This line creates a new Scanner object named scan and associates it with the standard input stream (System.in). 
+// This allows the program to read input from the user through the console.
+  public static void matrix(){
+Scanner scan = new Scanner(System.in);
+    System.out.println("Input the size of the matrix: ");
+    size = scan.nextInt();
+    table = new int[size][size];
+    System.out.println("Your Matrix is " + size + " x " + size);
+    System.out.println();
+    System.out.print("Printing matrix with default values:");
+  }
+
+
+  //Print current matrix when this method is called 
+//iterates over the columns of the matrix. It starts from 0 and continues as long as the column is less than the variable size.
+  public static void printMatrix(){
+    for(row = 0; row < size; row++){
+      System.out.print('\n');
+      for(int col = 0; col < size; col++){
+// code within this inner loop
+
+        //Change color to yellow if the number is diagnally from the matrix
+        if(row + col == size - 1){
+          System.out.print(ANSI_YELLOW);// changes text color to yellow
+          System.out.printf("%-6d",table[row][col]);// Prints the value from the table with formatting 
+          System.out.print(ANSI_RESET);// resets text color to default 
+        }
+
+        //Print current number with proper formatting to keep the columns aligned 
+        else{
+          System.out.printf("%-6d",table[row][col]); //retrieves the value from the table array at the specified row and col indices.
+        }
+      }
+    }
+  }
+
+  //Fill the matrix with values counting up starting from 1 
+  public static void populateMatrix(){
+
+    System.out.println(); //Prints an empty line 
+    System.out.println(); // Prints another line (generating to empty lines in total)
+    System.out.println("Populating matrix...matrix populated"); // Prints a meessage indicating the matrix is being populated  
+    System.out.println(); //Prints an empty line 
+    System.out.print("Printing matrix:"); // Prints a message indicating the start of printing of the matrix
+
+    for(row = 0; row < size; row++){
+      for(int col = 0; col < size; col++){
+        table[row][col] = (size * row) + col + 1;
+
+      }
+    }
+  }
+
+  //Swaping values in the matrix across the diagonal 
+  private static void swap(int x1, int y1, int x2, int y2){
+    int temp = table[x1][y1]; // Store the value of the table using a temorary variable 
+    table[x1][y1] = table[x2][y2];// Assign the value of the table [x2][y2] to table[x1][y1]
+    table[x2][y2] = temp; // Assign the stored value (from temp) to table[x2][y2]
+  }
+
+  //Main method that flips the matrix across the diagonal 
+  public static void flipMatrix(){
+    int length = table.length; // Obtains the length of the matrix 
+
+
+    System.out.println();// Prints an empty line 
+    System.out.println();// Prints another empty line 
+    System.out.println("Flipping matrix...matrix flipped"); // Prints a message indicating that the matrix is being flipped 
+    System.out.println();// Prints an empty line
+    System.out.print("Printing flipped matrix:"); // Prints a message indicating the start of printing the flipped matrix
+
+
+    for(row = 0; row < length; row++){
+      for(col = 0; col < length; col++){
+        if(row + col < length - 1){
+          swap(row, col, length - row - 1, length - col - 1);
+        }
+        else if(row + col == length){} //place holder 
+      }
+    }
+  }
+
+}
+
+
